@@ -1,4 +1,4 @@
-﻿using WebApplication1.Models.Base;
+﻿using WebApplication1.Models;
 
 namespace WebApplication1.Models
 {
