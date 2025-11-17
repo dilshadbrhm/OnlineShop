@@ -5,7 +5,7 @@ namespace WebApplication1.DAL
 {
     public class AppDBContext:DbContext
     {
-        public AppDBContext(DbContextOptions<AppDBContext> option):base(option) { }
+        public AppDBContext(DbContextOptions<AppDbContext> option):base(option) { }
 
         
         public DbSet<Slide> Slides { get; set; }
