@@ -17,13 +17,19 @@ builder.Services.AddDbContext<AppDBContext>(opt =>
 
 var app = builder.Build();
 
+app.UseStaticFiles();
+app.UseRouting();
 
+app.MapControllerRoute(
+    "areas",
+    "{area:exists}/{controller=home}/{action=index}/{id?}"
+
+    );
 app.MapControllerRoute(
     "default",
     "{controller=home}/{action=index}/{id?}"
 
     );
 
-app.UseStaticFiles();
 
 app.Run();

@@ -18,23 +18,23 @@ namespace WebApplication1.Controllers
             _context = context;
 
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
 
 
             HomeVM homeVM = new HomeVM
             {
-                Slides = _context
+                Slides = await _context
                 .Slides
                 .OrderBy(s => s.Order)
                 .Take(2)
-                .ToList(),
+                .ToListAsync(),
 
-                Products = _context.Products
+                Products = await _context.Products
                 .OrderBy(p => p.CreatedAt)
                 .Take(8)
                 .Include(p => p.ProductImages.Where(pi => pi.IsPrimary != null))
-                .ToList()
+                .ToListAsync()
             };
             return View(homeVM);
 

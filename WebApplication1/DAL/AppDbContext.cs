@@ -5,7 +5,7 @@ namespace WebApplication1.DAL
 {
     public class AppDBContext:DbContext
     {
-        public AppDBContext(DbContextOptions<AppDbContext> option):base(option) { }
+        public AppDBContext(DbContextOptions<AppDBContext> option):base(option) { }
 
         
         public DbSet<Slide> Slides { get; set; }
@@ -13,5 +13,6 @@ namespace WebApplication1.DAL
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
 
+        
     }
 }

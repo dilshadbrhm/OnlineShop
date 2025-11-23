@@ -1,0 +1,71 @@
+﻿@model List<WebApplication1.Models.Category>
+@{
+int count = 0;
+}
+
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Categories</h4>
+                    <p class="card-description">
+                        Add class <code>.table-striped</code>
+                    </p>
+                    <div class="table-responsive">
+
+                        <a asp-area="Admin" asp-controller="Category" asp-action="Create"
+                           class="btn btn-success">Create Category</a>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Product Count</th>
+                                    <th>Settings</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var category in Model)
+                                {
+                                count++;
+                                <tr>
+                                    <td class="py-1">
+                                        @count
+                                    </td>
+                                    <td>
+                                        @category.Name
+                                    </td>
+                                    <td>
+                                        @if (category.Products != null)
+                                        {
+                                        @:0
+                                        }
+                                      
+
+                                    </td>
+                                    <td>
+                                        <a asp-area="Admin" asp-controller="Category" asp-action="Delete"
+                                           asp-route-id="@category.Id" class="btn btn-danger">
+                                            <i class="mdi mdi-delete"></i>
+                                        </a>
+                                        <a asp-area="Admin" asp-controller="Category" asp-action="Edit"
+                                           asp-route-id="@category.Id" class="btn btn-warning">
+                                            <i class="mdi mdi-pencil"></i>
+                                        </a>
+                                        <a asp-area="Admin" asp-controller="Category" asp-action="Details"
+                                           asp-route-id="@category.Id" class="btn btn-primary">
+                                            <i class="mdi mdi-open-in-new"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

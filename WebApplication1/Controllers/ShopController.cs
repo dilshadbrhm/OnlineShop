@@ -20,25 +20,25 @@ namespace WebApplication1.Controllers
         }
 
 
-        public IActionResult Details(int? id)
+        public  async Task<IActionResult> Details(int? id)
         {
             if (id == null || id < 1)
             {
                 return BadRequest();
             }
-            Product? product = _context.Products
+            Product? product = await _context.Products
                 .Include(p => p.ProductImages.OrderByDescending(pi=>pi.IsPrimary))
                 .Include(p => p.Category)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            List<Product> relatedProducts = _context.Products
+            List<Product> relatedProducts = await _context.Products
                 .Where(p => p.CategoryId == product.CategoryId && p.Id != id)
                 .Include(p => p.ProductImages.Where(pi => pi.IsPrimary != null))
-                .ToList();
+                .ToListAsync();
 
             DetailsVM detailsVM = new DetailsVM()
             {
