@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h4 class="card-title">Create Category</h4>
 
-                <form asp-action="Create" method="post" class="forms-sample">
+                <form asp-action="Create" method="post" class="forms-sample" enctype="multipart/form-data">
                     <div class="form-group">
                         <label asp-for="Name">Name</label>
                         <input asp-for="Name" class="form-control" placeholder="Name" />
