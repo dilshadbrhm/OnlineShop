@@ -1,9 +1,13 @@
-﻿using WebApplication1.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using WebApplication1.Models;
 
 namespace WebApplication1.Models
 {
     public class Slide : BaseEntity
     {
+
+        [MaxLength(50,ErrorMessage= "The value cannot be greater than 50.")]
+        [MinLength(2)]
         public string Title { get; set; }
         public string Subtitle { get; set; }
         public string Description { get; set; }

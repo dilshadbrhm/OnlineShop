@@ -1,0 +1,23 @@
+﻿@model WebApplication1.Models.Category
+
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Update Category</h4>
+
+                <form class="forms-sample">
+                    <div class="form-group">
+                        <label asp-for="Name">Name</label>
+                        <input asp-for="Name" class="form-control" />
+                    </div>
+
+                    
+                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <a asp-action="Index" class="btn btn-light">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
