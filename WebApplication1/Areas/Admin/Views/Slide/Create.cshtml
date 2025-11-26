@@ -1,5 +1,4 @@
-﻿@model WebApplication1.Models.Slide
-
+﻿@model WebApplication1.ViewModels.Slides.CreateSlideVM
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
@@ -27,7 +26,7 @@
 
                     <div class="form-group">
                         <label asp-for="Photo">Image</label>
-                        <input asp-for="Photo" type="file" class="form-control">
+                        <input asp-for="Photo"  accept ="image/*" type="file" class="form-control">
                         <span asp-validation-for="Photo" class="text-danger"></span>
                     </div>
 

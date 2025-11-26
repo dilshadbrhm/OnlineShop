@@ -53,7 +53,7 @@
                                         @slide.Order
                                     </td>
                                     <td>
-                                        <a class="btn btn-danger"><i class="mdi mdi-delete"></i></a>
+                                        <a asp-area="Admin" asp-controller="Slide" asp-action="Delete" asp-route-id="@slide.Id"class="btn btn-danger"><i class="mdi mdi-delete"></i></a>
                                         <a  asp-area="Admin" asp-controller="Slide" asp-action="Update" asp-route-id="@slide.Id" class="btn btn-warning"><i class="mdi mdi-pencil"></i></a>
                                         <a class="btn btn-primary"><i class="mdi mdi-open-in-new"></i></a>
                                     </td>
