@@ -40,7 +40,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                 return View(category);   
             }
 
-            bool existed = await _context.Categories.AnyAsync(c => c.Name.Trim().ToLower() == category.Name.Trim().ToLower());
+            bool existed = await _context.Categories.AnyAsync(c => c.Name == category.Name);
 
             if (existed)
             {

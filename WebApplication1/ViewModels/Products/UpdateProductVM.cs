@@ -14,5 +14,7 @@ namespace WebApplication1.ViewModels.Products
         [Required]
         public int? CategoryId { get; set; }
         public List<Category>? Categories { get; set; }
+        public List<Tag>? Tags { get; set; }
+        public List<int>? TagIds { get; set; }
     }
 }
