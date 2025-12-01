@@ -9,7 +9,7 @@ namespace WebApplication1.Models
         public string SKU { get; set; }
         public string Description { get; set; }
 
-        //relational
+        
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 

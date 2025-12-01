@@ -1,5 +1,5 @@
 ﻿
-@model List<WebApplication1.ViewModels.Slides.GetSlideVM>
+@model List<WebApplication1.ViewModels.Products.GetAdminProductVM>
 @{
     int count = 0;
 }
@@ -8,13 +8,13 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Slides</h4>
+                <h4 class="card-title">Products</h4>
                 <p class="card-description">
                     Add class <code>.table-striped</code>
                 </p>
                 <div class="table-responsive">
                 
-                    <a class="btn btn-success" asp-action="Create">Create slideVM</a>
+                    <a class="btn btn-success" asp-action="Create">Create Products</a>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -25,10 +25,13 @@
                                     Image
                                 </th>
                                 <th>
-                                    Title
+                                    Name
                                 </th>
                                 <th>
-                                    Order
+                                    Price
+                                </th>
+                                <th>
+                                    Category
                                 </th>
                                 <th>
                                     Settings
@@ -36,7 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (WebApplication1.ViewModels.Slides.GetSlideVM slideVM in Model)
+                            @foreach (WebApplication1.ViewModels.Products.GetAdminProductVM productVM in Model)
                             {
                                 count++;
                                 <tr>
@@ -44,17 +47,20 @@
                                         @count
                                     </td>
                                     <td>
-                                        <img src="~/assets/images/website-images/@slideVM.Image" />
+                                        <img src="~/assets/images/website-images/@productVM.Image" />
                                     </td>
                                     <td>
-                                        @slideVM.Title
+                                        @productVM.Name
                                     </td>
                                     <td>
-                                        @slideVM.Order
+                                        @productVM.Price
                                     </td>
                                     <td>
-                                        <a asp-area="Admin" asp-action="Delete" asp-route-id="@slideVM.Id"class="btn btn-danger"><i class="mdi mdi-delete"></i></a>
-                                        <a  asp-area="Admin"  asp-action="Update" asp-route-id="@slideVM.Id" class="btn btn-warning"><i class="mdi mdi-pencil"></i></a>
+                                        @productVM.CategoryName
+                                    </td>
+                                    <td>
+                                        <a asp-area="Admin"  asp-action="Delete" asp-route-id="@productVM.Id" class="btn btn-danger"><i class="mdi mdi-delete"></i></a>
+                                        <a asp-area="Admin"  asp-action="Update" asp-route-id="@productVM.Id" class="btn btn-warning"><i class="mdi mdi-pencil"></i></a>
                                         <a class="btn btn-primary"><i class="mdi mdi-open-in-new"></i></a>
                                     </td>
                                 </tr>
