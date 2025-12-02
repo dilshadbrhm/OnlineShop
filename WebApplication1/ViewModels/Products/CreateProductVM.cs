@@ -10,7 +10,9 @@ namespace WebApplication1.ViewModels.Products
         public decimal? Price { get; set; }
         public string SKU { get; set; }
         public string Description { get; set; }
-
+        public IFormFile PrimaryPhoto { get; set; }
+        public IFormFile SecondaryPhoto{ get; set; }
+        public List<IFormFile>? AdditionalPhotos { get; set; }
         [Required]
         public int? CategoryId { get; set; }
         public List<int>? TagIds { get; set; }

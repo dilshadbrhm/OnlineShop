@@ -6,6 +6,24 @@
                 <h4 class="card-title">Create Slide</h4>
 
                 <form asp-action="Create" class="forms-sample" method="post" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label asp-for="PrimaryPhoto">Primary Image</label>
+                        <input asp-for="PrimaryPhoto" accept="image/*" type="file" class="form-control">
+                        <span asp-validation-for="PrimaryPhoto" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SecondaryPhoto">Secondary Image</label>
+                        <input asp-for="SecondaryPhoto" accept="image/*" type="file" class="form-control">
+                        <span asp-validation-for="SecondaryPhoto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AdditionalPhotos">Additional Images</label>
+                        <input asp-for="AdditionalPhotos" accept="image/*" type="file" class="form-control">
+                        <span asp-validation-for="AdditionalPhotos" class="text-danger"></span>
+                    </div>
+
                     <div class="form-group">
                         <label asp-for="Name">Name</label>
                         <input asp-for="Name" type="text" class="form-control" placeholder="Name">
@@ -32,17 +50,17 @@
                         </select>
 
                         @*<select asp-for="CategoryId" class="form-control">
-                                <option selected disabled value="">Choose Category</option>
-                                @foreach (Category category in Model.Categories)
-                                {
-                                    <option value="@category.Id">@category.Name</option>
-                                }
-                            </select>*@
+                <option selected disabled value="">Choose Category</option>
+                @foreach (Category category in Model.Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>*@
                         <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TagIds">Tags</label>
-                        <select asp-for="TagIds" class="form-control" asp-items="@(new SelectList(Model.Tags,nameof(Tag.Id),nameof(Tag.Name)))">                    
+                        <select asp-for="TagIds" class="form-control" asp-items="@(new SelectList(Model.Tags,nameof(Tag.Id),nameof(Tag.Name)))">
                         </select>
 
 

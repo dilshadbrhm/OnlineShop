@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h4 class="card-title">Create Category</h4>
 
-                <form asp-action="Create" method="post" class="forms-sample" enctype="multipart/form-data">
+                <form asp-area="Admin" asp-controller="Category" asp-action="Create" method="post" class="forms-sample" >
                     <div class="form-group">
                         <label asp-for="Name">Name</label>
                         <input asp-for="Name" class="form-control" placeholder="Name" />
@@ -16,7 +16,7 @@
                     
 
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
-                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                    <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn btn-light">Cancel</a>
                 </form>
             </div>
         </div>
