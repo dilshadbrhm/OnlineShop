@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         //retational
-        public List<Product> Products { get; set; }
+        public List<Product>? Products { get; set; }
     }
 }

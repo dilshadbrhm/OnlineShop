@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using WebApplication1.DAL;
 using WebApplication1.Models;
 
@@ -15,23 +14,30 @@ namespace WebApplication1.Areas.Admin.Controllers
         {
             _context = context;
         }
+
         public async Task<IActionResult> Index()
         {
-            var tags = await _context.Tags.Include(p => p.ProductTags).ToListAsync();
+            List<Tag> tags = await _context.Tags
+                .Include(t => t.ProductTags)
+                .ToListAsync();
             return View(tags);
         }
+
+
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(Tag tag)
         {
             if (!ModelState.IsValid)
+            {
                 return View(tag);
+            }
 
             bool existed = await _context.Tags.AnyAsync(t => t.Name == tag.Name);
-
             if (existed)
             {
                 ModelState.AddModelError(nameof(Tag.Name), "Tag name already exists.");
@@ -40,52 +46,55 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             _context.Tags.Add(tag);
             await _context.SaveChangesAsync();
-
             return RedirectToAction(nameof(Index));
         }
+
+
         public async Task<IActionResult> Update(int? id)
         {
-            if (id == null || id < 1)
-            {
-                return BadRequest();
-            }
-                
+            if (id == null || id < 1) return BadRequest();
 
-            var tag = await _context.Tags.Include(t => t.ProductTags).FirstOrDefaultAsync(t => t.Id == id);
-
-            if (tag == null)
-            {
-                return NotFound();
-            }
+            Tag? tag = await _context.Tags.FirstOrDefaultAsync(t => t.Id == id);
+            if (tag == null) return NotFound();
 
             return View(tag);
         }
+
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Tag tag)
+        public async Task<IActionResult> Update(int? id, Tag tag)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(tag);
-            }
+            if (id == null || id < 1) return BadRequest();
 
-            Tag? existed = await _context.Tags.FindAsync(id);
-            if (existed == null)
-            {
-                return NotFound();
-            }
+            if (id != tag.Id) return BadRequest();
 
-            bool nameResult = await _context.Tags.AnyAsync(t => t.Name.Trim().ToLower() == tag.Name && t.Id != id);
+            if (!ModelState.IsValid) return View(tag);
 
-            if (nameResult)
+            bool existed = await _context.Tags.AnyAsync(t => t.Name == tag.Name && t.Id != tag.Id);
+            if (existed)
             {
                 ModelState.AddModelError(nameof(Tag.Name), "Tag name already exists.");
                 return View(tag);
             }
 
-            existed.Name = tag.Name;
-
+            _context.Tags.Update(tag);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || id < 1)
+                return BadRequest();
+
+            Tag? tag = await _context.Tags.FirstOrDefaultAsync(t => t.Id == id);
+            if (tag == null)
+                return NotFound();
+
+            _context.Tags.Remove(tag);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+ 
     }
 }

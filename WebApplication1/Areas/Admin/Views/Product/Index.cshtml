@@ -1,5 +1,5 @@
 ﻿
-@model List<WebApplication1.ViewModels.Products.GetAdminProductVM>
+@model List<GetAdminProductVM>
 @{
     int count = 0;
 }
@@ -39,7 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (WebApplication1.ViewModels.Products.GetAdminProductVM productVM in Model)
+                            @foreach(GetAdminProductVM productVM in Model)
                             {
                                 count++;
                                 <tr>
@@ -61,7 +61,7 @@
                                     <td>
                                         <a asp-area="Admin"  asp-action="Delete" asp-route-id="@productVM.Id" class="btn btn-danger"><i class="mdi mdi-delete"></i></a>
                                         <a asp-area="Admin"  asp-action="Update" asp-route-id="@productVM.Id" class="btn btn-warning"><i class="mdi mdi-pencil"></i></a>
-                                        <a class="btn btn-primary"><i class="mdi mdi-open-in-new"></i></a>
+                                        <a asp-area="Admin" asp-action="Details" asp-route-id="@productVM.Id"   class="btn btn-primary"><i class="mdi mdi-open-in-new"></i></a>
                                     </td>
                                 </tr>
                             }

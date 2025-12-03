@@ -6,10 +6,10 @@
             <div class="card-body">
                 <h4 class="card-title">Create Category</h4>
 
-                <form asp-area="Admin" asp-controller="Category" asp-action="Create" method="post" class="forms-sample" >
+                <form  method="post" class="forms-sample" >
                     <div class="form-group">
                         <label asp-for="Name">Name</label>
-                        <input asp-for="Name" class="form-control" placeholder="Name" />
+                        <input asp-for="Name"  class="form-control" placeholder="Name" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 

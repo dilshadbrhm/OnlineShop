@@ -1,20 +1,20 @@
 ﻿@model WebApplication1.ViewModels.Products.UpdateProductVM
 @{
-    ProductImage primary = @Model.ProductImages.FirstOrDefault(pi => pi.IsPrimary == true);
-    ProductImage secondary = @Model.ProductImages.FirstOrDefault(pi => pi.IsPrimary == false);
+    WebApplication1.Models.ProductImage primary = @Model.ProductImages.FirstOrDefault(pi => pi.IsPrimary == true);
+    WebApplication1.Models.ProductImage secondary = @Model.ProductImages.FirstOrDefault(pi => pi.IsPrimary == false);
 }
-}
+
 
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Update Slide</h4>
+                <h4 class="card-title">Update Product</h4>
 
-                <form asp-action="Create" class="forms-sample" method="post" enctype="multipart/form-data">
+                <form asp-action="Update" class="forms-sample" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <img style="width:150px;height:150px;" src="~/assets/images/website-images/@primary.Image" />
-                        <br/>
+                        <br />
                         <label asp-for="PrimaryPhoto">Primary Image</label>
                         <input asp-for="PrimaryPhoto" accept="image/*" type="file" class="form-control">
                         <span asp-validation-for="PrimaryPhoto" class="text-danger"></span>
@@ -22,10 +22,26 @@
 
                     <div class="form-group">
                         <img style="width:150px;height:150px;" src="~/assets/images/website-images/@secondary.Image" />
-                        <br/>
+                        <br />
                         <label asp-for="SecondaryPhoto">Secondary Image</label>
                         <input asp-for="SecondaryPhoto" accept="image/*" type="file" class="form-control">
                         <span asp-validation-for="SecondaryPhoto" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group d-flex">
+                        @foreach (ProductImage pImage in Model.ProductImages.Where(pi => pi.IsPrimary == null))
+                        {
+                            <div style="position:relative;">
+                                <img style="width:150px;height:150px;" src="~/assets/images/website-images/@pImage.Image" />
+                                <button type="button" style="position:absolute;top:5px;right:5px;" class="btn btn-danger cus-delete">X</button>
+                                <input asp-for="ImageIds" type="hidden" value="@pImage.Id">
+                            </div>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AdditionalPhotos">Additional Images</label>
+                        <input asp-for="AdditionalPhotos" accept="image/*" type="file" class="form-control" multiple>
+                        <span asp-validation-for="AdditionalPhotos" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Name">Name</label>
@@ -47,7 +63,7 @@
 
                     <div class="form-group">
                         <label asp-for="CategoryId">Category</label>
-                        <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(Model.Categories,nameof(Category.Id),nameof(Category.Name)))">
+                        <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(Model.Categories,nameof(WebApplication1.Models.Category.Id),nameof(WebApplication1.Models.Category.Name)))">
                         </select>
 
 
@@ -55,7 +71,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="TagIds">Tags</label>
-                        <select asp-for="TagIds" class="form-control" asp-items="@(new SelectList(Model.Tags,nameof(Tag.Id),nameof(Tag.Name)))">
+                        <select asp-for="TagIds" class="form-control" mul asp-items="@(new SelectList(Model.Tags,nameof(WebApplication1.Models.Tag.Id),nameof(WebApplication1.Models.Tag.Name)))">
                         </select>
 
 
@@ -74,3 +90,14 @@
         </div>
     </div>
 </div>
+
+@section DeleteButtons{
+    <script>
+        var btns = document.querySelectorAll(".cus-delete");
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function () {
+                btns[i].parentElement.remove()
+            });
+        }
+    </script>
+}

@@ -23,7 +23,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (Color color in Model)
+                            @foreach (WebApplication1.Models.Color color in Model)
                             {
                                 count++;
                                 <tr>
@@ -31,6 +31,7 @@
                                     <td>@color.Name</td>
                                     <td>
                                         <a asp-area="Admin" asp-controller="Color" asp-action="Update" asp-route-id="@color.Id" class="btn btn-warning">
+
                                             <i class="mdi mdi-pencil"></i>
                                         </a>
                                     </td>

@@ -14,16 +14,20 @@ namespace WebApplication1.Areas.Admin.Controllers
         {
             _context = context;
         }
+
         public async Task<IActionResult> Index()
         {
-            var sizes = await _context.Sizes.Include(s => s.ProductSizes).ThenInclude(ps => ps.Product).ToListAsync();
-
+            List<Size> sizes = await _context.Sizes
+                .Include(s => s.ProductSizes)
+                .ToListAsync();
             return View(sizes);
         }
+
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(Size size)
         {
@@ -31,10 +35,8 @@ namespace WebApplication1.Areas.Admin.Controllers
             {
                 return View(size);
             }
-               
 
-            bool existed = await _context.Sizes.AnyAsync(s => s.Name== size.Name);
-
+            bool existed = await _context.Sizes.AnyAsync(s => s.Name == size.Name);
             if (existed)
             {
                 ModelState.AddModelError(nameof(Size.Name), "Size already exists.");
@@ -43,58 +45,53 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             _context.Sizes.Add(size);
             await _context.SaveChangesAsync();
-
             return RedirectToAction(nameof(Index));
         }
 
+
         public async Task<IActionResult> Update(int? id)
         {
-            if (id == null || id < 1)
-            {
-                return BadRequest();
-            }
-                
+            if (id == null || id < 1)  return BadRequest();
 
-            var size = await _context.Sizes.Include(s => s.ProductSizes).FirstOrDefaultAsync(s => s.Id == id);
-
-            if (size == null)
-            {
-                return NotFound();
-            }
-                
+            Size size = await _context.Sizes.FirstOrDefaultAsync(s => s.Id == id);
+            if (size == null) return NotFound();
 
             return View(size);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Size size)
+        public async Task<IActionResult> Update(int? id, Size size)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(size);
-            }
-               
+            if (id == null || id < 1)  return BadRequest();
 
-            var existed = await _context.Sizes.FirstOrDefaultAsync(s => s.Id == id); 
-            if (existed == null)
-            {
-                return NotFound();
-            }
-                
+            if (id != size.Id) return BadRequest();
 
-            bool nameExists = await _context.Sizes.AnyAsync(s => s.Name == size.Name && s.Id != id);
+            if (!ModelState.IsValid)  return View(size);
 
-            if (nameExists)
+            bool existed = await _context.Sizes.AnyAsync(s => s.Name == size.Name && s.Id != size.Id);
+            if (existed)
             {
                 ModelState.AddModelError(nameof(Size.Name), "Size already exists.");
                 return View(size);
             }
 
-            existed.Name = size.Name.Trim();
-
+            _context.Sizes.Update(size);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || id < 1)  return BadRequest();
+
+            Size? size = await _context.Sizes.FirstOrDefaultAsync(s => s.Id == id);
+            if (size == null) return NotFound();
+
+            _context.Sizes.Remove(size);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+   
     }
 }
-

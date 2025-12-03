@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
 
-        public List<ProductColor> ProductColors { get; set; }
+        public List<ProductColor>? ProductColors { get; set; }
     }
 }

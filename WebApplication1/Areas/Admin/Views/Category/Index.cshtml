@@ -2,7 +2,6 @@
 @{
     int count = 0;
 }
-
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
@@ -11,12 +10,8 @@
                 <p class="card-description">
                     Add class <code>.table-striped</code>
                 </p>
-
                 <div class="table-responsive">
-
-                    <a asp-area="Admin" asp-controller="Category" asp-action="Create"
-                       class="btn btn-success">Create Category</a>
-
+                    <a class="btn btn-success" asp-action="Create">Create Category</a>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -32,44 +27,22 @@
                                 count++;
                                 <tr>
                                     <td class="py-1">@count</td>
-
                                     <td>@category.Name</td>
-
                                     <td>
-                                        @if (category.Products == null)
+                                        @if (category.Products != null)
                                         {
-                                            @:0
+                                            count = category.Products.Count;
                                         }
-                                        else
-                                        {
-                                            @category.Products.Count
-                                        }
-                                    </td>
-
-                                    <td>
-                                        <a asp-area="Admin" asp-controller="Category"
-                                           asp-action="Delete" asp-route-id="@category.Id"
-                                           class="btn btn-danger">
-                                            <i class="mdi mdi-delete"></i>
-                                        </a>
-
-                                        <a asp-area="Admin" asp-controller="Category"
-                                           asp-action="Update" asp-route-id="@category.Id"
-                                           class="btn btn-warning">
-                                            <i class="mdi mdi-pencil"></i>
-                                        </a>
-
-                                        <a asp-area="Admin" asp-controller="Category"
-                                           asp-action="Details" asp-route-id="@category.Id"
-                                           class="btn btn-primary">
-                                            <i class="mdi mdi-open-in-new"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
+                                </td>
+                                <td>
+                                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger"><i class="mdi mdi-delete"></i></a>
+                                    <a asp-action="Update" asp-route-id="@category.Id" class="btn btn-warning"><i class="mdi mdi-pencil"></i></a>
+                                    <a asp-action="Details" asp-route-id="@category.Id" class="btn btn-primary"><i class="mdi mdi-open-in-new"></i></a>
+                                </td>
+                            </tr>
+                        }
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>

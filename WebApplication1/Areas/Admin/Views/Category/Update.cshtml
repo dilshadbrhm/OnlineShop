@@ -5,16 +5,19 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Update Category</h4>
+                <p class="card-description">Update Category</p>
 
-                <form class="forms-sample">
+                <form asp-action="Update" method="post" class="forms-sample">
+                    <input type="hidden" asp-for="Id" />
+
                     <div class="form-group">
-                        <label asp-for="Name">Name</label>
-                        <input asp-for="Name" class="form-control" />
+                        <label asp-for="Name">Category</label>
+                        <input asp-for="Name" class="form-control" placeholder="Category">
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
-                    
-                    <button type="submit" class="btn btn-primary me-2">Submit</button>
-                    <a asp-action="Index" class="btn btn-light">Back</a>
+                    <button type="submit" class="btn btn-primary me-2">Update</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
                 </form>
             </div>
         </div>
