@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.DAL;
 using WebApplication1.Models;
@@ -10,6 +11,7 @@ using WebApplication1.ViewModels.Products;
 namespace WebApplication1.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly AppDBContext _context;
@@ -167,6 +169,7 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [Authorize]
 
         public async Task<IActionResult> Update(int? id)
         {
@@ -414,6 +417,7 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             return View(productVM);
         }
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id is null || id <1 ) return BadRequest();

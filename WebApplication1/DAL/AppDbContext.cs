@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 
 namespace WebApplication1.DAL
 {
-    public class AppDBContext:DbContext
+    public class AppDBContext:IdentityDbContext<AppUser>
     {
+        
         public AppDBContext(DbContextOptions<AppDBContext> option):base(option) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
