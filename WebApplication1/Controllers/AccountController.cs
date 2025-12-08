@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.DAL;
 using WebApplication1.Models;
+using WebApplication1.Utilities.Extensions;
 using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
@@ -37,19 +38,14 @@ namespace WebApplication1.Controllers
                 return View();
             }
             string image = "/assets/images/website-images/User-avatar.svg.png";
-            if (userVM.ProfileImage!=null)
+
+
+            string file = await userVM.ProfileImage
+                .CreateFileAsync(_env.WebRootPath, "uploads", "profiles");
+            string imagePath = $"/uploads/profiles/{file}";
+            if (image != null)
             {
-
-                string folder = Path.Combine(_env.WebRootPath, "uploads", "profiles");
-                Directory.CreateDirectory(folder);
-
-                string fileName = Guid.NewGuid() + Path.GetExtension(userVM.ProfileImage.FileName);
-                string path = Path.Combine(folder, fileName);
-
-                using var stream = new FileStream(path, FileMode.Create);
-                await userVM.ProfileImage.CopyToAsync(stream);
-
-                image = "/uploads/profiles/" + fileName;
+                image = imagePath;
             }
 
             AppUser user = new AppUser()
