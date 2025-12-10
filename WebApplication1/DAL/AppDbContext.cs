@@ -14,6 +14,7 @@ namespace WebApplication1.DAL
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ProductTag>().HasKey(pt=>new {pt.ProductId,pt.TagId});
+            modelBuilder.Entity<Setting>().HasKey(s=>s.Key);
         }
         public DbSet<Slide> Slides { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -25,6 +26,7 @@ namespace WebApplication1.DAL
         public DbSet<ProductSize> ProductSizes { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<Size> Sizes { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
 
     }

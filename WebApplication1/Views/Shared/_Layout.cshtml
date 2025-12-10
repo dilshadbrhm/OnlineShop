@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using WebApplication1.Services.Implementations
+@using WebApplication1.Services.Interfaces
+
+@inject ILayoutService service;
+
+@{
+    Dictionary<string, string> settings = await service.GetSettingsAsync();
+
+}
+
+<!DOCTYPE html>
 <html lang="zxx">
 <head>
     <meta charset="UTF-8" />
@@ -24,7 +34,6 @@
     <link rel="stylesheet" href="~/assets/css/nice-select.css" />
     <link rel="stylesheet" href="~/assets/css/magnific-popup.min.css" />
     <link rel="stylesheet" href="~/assets/css/ion.rangeSlider.min.css" />
-
     <!-- Style CSS -->
     <link rel="stylesheet" href="~/assets/css/style.css" />
 </head>
@@ -97,11 +106,11 @@
                             <div class="header-middle-wrap position-relative">
                                 <div class="header-contact d-none d-lg-flex">
                                     <i class="pe-7s-call"></i>
-                                    <a href="tel://+00-123-456-789">+00 123 456 789</a>
+                                    <a href="tel://@settings["tel"]">@settings["tel"]</a>
                                 </div>
 
                                 <a href="index.html" class="header-logo">
-                                    <img src="assets/images/logo/dark.png" alt="Header Logo" />
+                                    <img src="~/assets/images/logo/@settings["logo"]" alt="Header Logo" />
                                 </a>
 
                                 <div class="header-right">
@@ -111,7 +120,7 @@
                                                class="search-btn bt"
                                                data-bs-toggle="modal"
                                                data-bs-target="#exampleModal">
-                                                <i class="pe-7s-search"></i>
+                                                @Html.Raw(settings["searchIcon"])
                                             </a>
                                         </li>
                                         <li class="dropdown d-none d-lg-block">
@@ -125,24 +134,25 @@
                                             </button>
                                             <ul class="dropdown-menu"
                                                 aria-labelledby="settingButton">
+
                                                 @if (User.Identity.IsAuthenticated)
                                                 {
                                                     <li>
-                                                        <a class="dropdown-item" href="my-account.html">@User.Identity.Name</a>
+                                                        <a class="dropdown-item" href="my-account.html">e</a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" asp-controller="account" asp-action="logout">Log Out</a>
+                                                        <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Log out</a>
                                                     </li>
+
                                                 }
                                                 else
                                                 {
                                                     <li>
-                                                        <a class="dropdown-item" asp-controller="account" asp-action="login" asp-route-retunurl="@Context.Request.Path">Login</a>
+                                                        <a class="dropdown-item" asp-controller="Account" asp-action="Login" asp-route-returnurl="@Context.Request.Path.Value">Login</a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" asp-controller="account" asp-action="register">Register</a>
+                                                        <a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a>
                                                     </li>
-
                                                 }
 
                                             </ul>
@@ -304,7 +314,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-3 col-6">
                                 <a href="index.html" class="header-logo">
-                                    <img src="assets/images/logo/dark.png" alt="Header Logo" />
+                                    <img src="~/assets/images/logo/@settings["logo"]" alt="Header Logo" />
                                 </a>
                             </div>
                             <div class="col-lg-6 d-none d-lg-block">
@@ -436,7 +446,7 @@
                                                class="search-btn bt"
                                                data-bs-toggle="modal"
                                                data-bs-target="#exampleModal">
-                                                <i class="pe-7s-search"></i>
+                                                @Html.Raw(settings["searchIcon"])
                                             </a>
                                         </li>
                                         <li class="dropdown d-none d-lg-block">
@@ -450,25 +460,12 @@
                                             </button>
                                             <ul class="dropdown-menu"
                                                 aria-labelledby="stickysettingButton">
-                                                @if (User.Identity.IsAuthenticated)
-                                                {
-                                                    <li>
-                                                        <a class="dropdown-item" href="my-account.html">@User.Identity.Name</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" asp-controller="account" asp-action="logout">Log Out</a>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li>
-                                                        <a class="dropdown-item" asp-controller="account" asp-action="login">Login</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" asp-controller="account" asp-action="register">Register</a>
-                                                    </li>
-
-                                                }
+                                                <li>
+                                                    <a class="dropdown-item" href="my-account.html">My account</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="login-register.html">Login | Register</a>
+                                                </li>
                                             </ul>
                                         </li>
                                         <li class="d-none d-lg-block">
@@ -503,7 +500,7 @@
                         </div>
                         <div class="header-contact offcanvas-contact">
                             <i class="pe-7s-call"></i>
-                            <a href="tel://+00-123-456-789">+00 123 456 789</a>
+                            <a href="tel://@settings["tel"]">@settings["tel"]</a>
                         </div>
                         <div class="offcanvas-user-info">
                             <ul class="dropdown-wrap">
@@ -816,7 +813,7 @@
                                     <button class="search-btn"
                                             type="submit"
                                             aria-label="searchbtn">
-                                        <i class="pe-7s-search"></i>
+                                        @Html.Raw(settings["searchIcon"])
                                     </button>
                                 </form>
                             </div>
@@ -853,7 +850,7 @@
                                 <a href="single-product-variable.html"
                                    class="product-item_img">
                                     <img class="img-full"
-                                         src="assets/images/product/small-size/2-1-70x78.png"
+                                         src="~/assets/images/product/small-size/2-1-70x78.png"
                                          alt="Product Image" />
                                 </a>
                                 <div class="product-item_content">
@@ -875,7 +872,7 @@
                                 <a href="single-product-variable.html"
                                    class="product-item_img">
                                     <img class="img-full"
-                                         src="assets/images/product/small-size/2-2-70x78.png"
+                                         src="~/assets/images/product/small-size/2-2-70x78.png"
                                          alt="Product Image" />
                                 </a>
                                 <div class="product-item_content">
@@ -897,7 +894,7 @@
                                 <a href="single-product-variable.html"
                                    class="product-item_img">
                                     <img class="img-full"
-                                         src="assets/images/product/small-size/2-3-70x78.png"
+                                         src="~/assets/images/product/small-size/2-3-70x78.png"
                                          alt="Product Image" />
                                 </a>
                                 <div class="product-item_content">
@@ -920,6 +917,7 @@
             </div>
             <div class="global-overlay"></div>
         </header>
+        <!-- Main Header Area End Here -->
         @RenderBody()
         <!-- Begin Footer Area -->
         <div class="footer-area"
@@ -931,7 +929,7 @@
                             <div class="footer-widget-item">
                                 <div class="footer-widget-logo">
                                     <a href="index.html">
-                                        <img src="~/assets/images/logo/dark.png" alt="Logo" />
+                                        <img src="~/assets/images/logo/@settings["logo"]" alt="Logo" />
                                     </a>
                                 </div>
                                 <p class="footer-widget-desc">
@@ -943,7 +941,7 @@
                                 <div class="social-link with-border">
                                     <ul>
                                         <li>
-                                            <a href="#"
+                                            <a href="@settings["fbLink"]"
                                                data-tippy="Facebook"
                                                data-tippy-inertia="true"
                                                data-tippy-animation="shift-away"
@@ -1059,10 +1057,10 @@
                         <div class="col-lg-3 pt-40">
                             <div class="footer-contact-info">
                                 <h3 class="footer-widget-title">Got Question? Call Us</h3>
-                                <a class="number" href="tel://123-456-789">123 456 789</a>
+                                <a class="number" href="tel://@settings["tel"]">@settings["tel"]</a>
                                 <div class="address">
                                     <ul>
-                                        <li>Your Address Goes Here</li>
+                                        <li>@settings["adress"]</li>
                                     </ul>
                                 </div>
                             </div>
@@ -1298,4 +1296,3 @@
     <script src="~/assets/js/main.js"></script>
 </body>
 </html>
-

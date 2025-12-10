@@ -42,6 +42,7 @@ namespace WebApplication1.Controllers
 
 
         }
+        
         public IActionResult Contact()
         {
             return View();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.DAL;
 using WebApplication1.Models;
+using WebApplication1.Models.Enums;
 using WebApplication1.Utilities.Extensions;
 using WebApplication1.ViewModels;
 
@@ -13,12 +14,19 @@ namespace WebApplication1.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IWebHostEnvironment _env;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IWebHostEnvironment env)
+        public AccountController(
+            UserManager<AppUser> userManager, 
+            SignInManager<AppUser> signInManager,
+            IWebHostEnvironment env,
+            RoleManager<IdentityRole> roleManager
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _env = env;
+            _roleManager = roleManager;
         }
         public IActionResult Register()
         {
@@ -71,6 +79,7 @@ namespace WebApplication1.Controllers
                 }
                 return View();
             }
+            await _userManager.AddToRoleAsync(user,UserRole.Member.ToString());
             await _signInManager.SignInAsync(user, false);
 
             return RedirectToAction("Index", "Home");
@@ -116,6 +125,25 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> CreateRoles()
+        {
+            
+            foreach (UserRole role in Enum.GetValues(typeof(UserRole)))
+            {
+                if (!await _roleManager.RoleExistsAsync(role.ToString()))
+                {
+                    IdentityRole identityRole = new()
+                    {
+                        Name = role.ToString()
+                    };
+
+                    await _roleManager.CreateAsync(identityRole);
+                }
+                
+            }
             return RedirectToAction("Index", "Home");
         }
     }
