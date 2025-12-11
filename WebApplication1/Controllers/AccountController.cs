@@ -17,7 +17,7 @@ namespace WebApplication1.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(
-            UserManager<AppUser> userManager, 
+            UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             IWebHostEnvironment env,
             RoleManager<IdentityRole> roleManager
@@ -79,7 +79,7 @@ namespace WebApplication1.Controllers
                 }
                 return View();
             }
-            await _userManager.AddToRoleAsync(user,UserRole.Member.ToString());
+            await _userManager.AddToRoleAsync(user, UserRole.Member.ToString());
             await _signInManager.SignInAsync(user, false);
 
             return RedirectToAction("Index", "Home");
@@ -115,6 +115,7 @@ namespace WebApplication1.Controllers
                 ModelState.AddModelError(string.Empty, "Username, Email or Password is incorrect.");
                 return View();
             }
+            Response.Cookies.Delete("Basket");
             if (returnUrl != null)
             {
 
@@ -130,7 +131,7 @@ namespace WebApplication1.Controllers
 
         public async Task<IActionResult> CreateRoles()
         {
-            
+
             foreach (UserRole role in Enum.GetValues(typeof(UserRole)))
             {
                 if (!await _roleManager.RoleExistsAsync(role.ToString()))
@@ -142,7 +143,7 @@ namespace WebApplication1.Controllers
 
                     await _roleManager.CreateAsync(identityRole);
                 }
-                
+
             }
             return RedirectToAction("Index", "Home");
         }

@@ -10,7 +10,9 @@ namespace WebApplication1.Models
         
         public DateTime Birthday { get; set; }
         public Gender Gender { get; set; }
-        public string ProfileImage { get; set; } 
+        public string ProfileImage { get; set; }
+
+        public List<BasketItem> BasketItems { get; set; }
 
     }
 }

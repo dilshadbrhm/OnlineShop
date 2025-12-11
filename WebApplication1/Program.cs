@@ -11,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllersWithViews();
+//builder.Services.AddScoped<IHttpContextAccessor, IHttpContextAccessor>();
+
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddDbContext<AppDBContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
