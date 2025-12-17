@@ -11,7 +11,7 @@ using WebApplication1.ViewModels.Products;
 namespace WebApplication1.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles="Admin,Moderator")]
+    [Authorize(Roles = "Admin,Moderator")]
     public class ProductController : Controller
     {
         private readonly AppDBContext _context;
@@ -22,9 +22,24 @@ namespace WebApplication1.Areas.Admin.Controllers
             _context = context;
             _env = env;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
+
+            int totalCount = await _context.Products.CountAsync();
+
+           
+
+            int total = (int)Math.Ceiling((decimal)totalCount / 3);
+            
+            if (page < 1 || page > total)
+            {
+                return BadRequest();
+            }
+
+
             var productVMs = await _context.Products
+                .Skip((page - 1) * 3)
+                .Take(3)
                 .Select(p => new GetAdminProductVM
                 {
                     Id = p.Id,
@@ -34,7 +49,13 @@ namespace WebApplication1.Areas.Admin.Controllers
                     CategoryName = p.Category.Name
                 }).ToListAsync();
 
-            return View(productVMs);
+            PaginatedItemsVM<GetAdminProductVM> paginatedVM = new()
+            {
+                Items = productVMs,
+                CurrentPage = page,
+                TotalPage = total
+            };
+            return View(paginatedVM);
         }
         public async Task<IActionResult> Create()
         {
@@ -160,7 +181,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                         CreatedAt = DateTime.Now
                     });
                 }
-                    TempData["ImageWarning"] = message;
+                TempData["ImageWarning"] = message;
             }
 
 
@@ -170,7 +191,7 @@ namespace WebApplication1.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
         [Authorize]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int? id)
         {
 
@@ -284,7 +305,7 @@ namespace WebApplication1.Areas.Admin.Controllers
 
                 existed.ProductImages.Remove(existedMain);
 
-                
+
                 existed.ProductImages.Add(new()
                 {
                     Image = mainFileName,
@@ -308,7 +329,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                     CreatedAt = DateTime.Now
                 });
             }
-           
+
 
 
             if (productVM.ImageIds == null)
@@ -320,7 +341,7 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             List<ProductImage> deletedImage = existed.ProductImages
                 .Where(pi => !productVM.ImageIds
-                    .Exists(imgId => pi.Id == imgId) && pi.IsPrimary==null)
+                    .Exists(imgId => pi.Id == imgId) && pi.IsPrimary == null)
                 .ToList();
 
             deletedImage
@@ -403,7 +424,7 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             DetailsProductVM productVM = new DetailsProductVM
             {
-               
+
                 Name = product.Name,
                 Price = product.Price,
                 SKU = product.SKU,
@@ -417,10 +438,10 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             return View(productVM);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id is null || id <1 ) return BadRequest();
+            if (id is null || id < 1) return BadRequest();
 
             Product? product = await _context.Products
                 .Include(p => p.ProductImages)
@@ -429,7 +450,7 @@ namespace WebApplication1.Areas.Admin.Controllers
             if (product == null) return NotFound();
 
             product.ProductImages.ForEach(pi => pi.Image.DeleteFile(_env.WebRootPath, "assets", "images", "website-images"));
-           
+
 
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
