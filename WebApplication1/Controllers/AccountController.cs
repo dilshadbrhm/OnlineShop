@@ -49,8 +49,8 @@ namespace WebApplication1.Controllers
 
 
             string file = await userVM.ProfileImage
-                .CreateFileAsync(_env.WebRootPath, "uploads", "profiles");
-            string imagePath = $"/uploads/profiles/{file}";
+                .CreateFileAsync(_env.WebRootPath, "assets", "images","website-images");
+            string imagePath = $"/assets/images/website-images/{file}";
             if (image != null)
             {
                 image = imagePath;

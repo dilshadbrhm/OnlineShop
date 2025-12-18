@@ -35,11 +35,14 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
 builder.Services.AddScoped<ILayoutService ,LayoutService>();
 
 var app = builder.Build();
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+
 
 app.MapControllerRoute(
     "areas",
